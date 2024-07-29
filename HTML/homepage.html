@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+
+<body class="homepage">
+    <header class="">
+        <img src="./media/nflxlogo.webp" alt="">
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>Tv Shows</li>
+                <li>Movie</li>
+                <li>Trending</li>
+            </ul>
+        </nav>
+    </header>
+    <div class="homepage-container">
+        <div class="main-container">
+            <div class="filter">
+            </div>
+            <iframe id="videoframe" width="100%" height="100vh" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media;  allowfullscreen"
+                referrerpolicy="strict-origin-when-cross-origin "></iframe>
+        </div>
+        <div class="details-container">
+            <div class="popularity">
+                <p>#1 in Shows today</p>
+            </div>
+            <div class="description">
+                <p>Determined to protect a young patient who escaped a mysterious cult, a psychiatrist takes the girl
+                    in, putting her own family---and life in danger </p>
+            </div>
+            <div class="buttons">
+                <button id="play-button">Play</button>
+                <button id="button2">i More Info</button>
+            </div>
+        </div>
+
+        <div class="secondary-container">
+
+            <h3>Upcoming Movies</h3>
+            <div class="cards-container" id="cards-container"></div>
+
+        </div>
+
+        <div class="secondary-container">
+
+            <h3>Popular TV shows</h3>
+            <div class="cards-container" id="cards2-container"></div>
+
+        </div>
+
+
+    </div>
+
+    <script>
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzZjZmE2ODRlOGExZGFkY2U0YmZiYTZiMzhhMTg5NCIsIm5iZiI6MTcyMTg3Mjc5NC43MTk5MzcsInN1YiI6IjY1MjI3NjY4MGNiMzM1MTZmZWMzNGVjZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.6W28xhcQKYv6VLYWhlQr6FrmmH0n4lga7t_RnfjR82o'
+            }
+        };
+
+        fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US', options)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    const id = data.results[0].id;
+                    console.log('Trending movie ID:', id);
+
+                    // Fetch video details using the retrieved id
+                    fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options)
+                        .then(videoResponse => videoResponse.json())
+                        .then(videoData => {
+                            console.log('Video Data:', videoData);
+                            // Filter and log trailer data
+                            const trailers = videoData.results.filter(video => video.type === "Trailer");
+                            if (trailers.length > 0) {
+                                const trailer = trailers[0];
+                                console.log('First Trailer:', trailer);
+
+                                // Update the YouTube iframe src with the trailer key
+                                const ytKey = trailer.key;
+                                const youtubeIframe = document.getElementById('videoframe');
+                                youtubeIframe.src = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0`;
+                            } else {
+
+                                console.log('No trailers found');
+                            }
+                        })
+                        .catch(videoErr => console.error('Video Fetch Error:', videoErr));
+                } else {
+                    console.error('No results found');
+                }
+            })
+            .catch(err => console.error('Fetch Error:', err));
+
+
+        fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options).then(data => data.json()).then(data => {
+            console.log("backdrop data");
+            console.log(data);
+            const imgpath = data.results;
+            const cardContainer = document.getElementById('cards-container')
+            // cardContainer.innerHTML = ''
+            imgpath.forEach(element => {
+                const cards= `<div class="card"><img src="https://image.tmdb.org/t/p/w500/${element.backdrop_path}"/></div>`
+                // console.log("imgg" + imgg);
+                cardContainer.innerHTML += cards
+
+            });
+        })
+
+
+        fetch("https://api.themoviedb.org/3/tv/popular?language=en-US&page=1 ", options).then(data => data.json()).then(data => {
+            console.log("backdrop data");
+            console.log(data);
+            const imgpath = data.results;
+            const cardContainer = document.getElementById('cards2-container')
+            // cardContainer.innerHTML = ''
+            imgpath.forEach(element => {
+                const cards= `<div class="card"><img src="https://image.tmdb.org/t/p/w500/${element.backdrop_path}"/></div>`
+                // console.log("imgg" + imgg);
+                cardContainer.innerHTML += cards
+
+            });
+        })
+
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- https://image.tmdb.org/t/p/w500/    backdroppath-->
+
+<!-- -->
