@@ -5,24 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="signup-container">
         <div class="signup-box">
-            <form action="">
+            <form id="signupForm" action="">
                 <h2>Signup Now</h2>
-                <form action="">
-                    <input type="text" placeholder="Enter your Name" required>
-                    <input type="email" placeholder="Email address" required>
-                    <input type="password" placeholder="Password" required>
-                    <input type="password" placeholder="Confirm Password" required>
-                    <button type="submit">Sign In</button>
-                  </form>
-                  <p class="forgot-password"><a href="#">Forgot your password?</a></p>
-                  <p class="signup-link">Already a Member? <a href="./index.html">Log In now</a>.</p>
+                <input type="text" id="name" placeholder="Enter your Name" required>
+                <input type="email" id="email" placeholder="Email address" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Sign In</button>
+                <p class="forgot-password"><a href="#">Forgot your password?</a></p>
+                <p class="signup-link">Already a Member? <a href="./index.html">Log In now</a>.</p>
             </form>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#signupForm').on('submit', function(event) {
+                // Remove previous error messages
+                $('.error-message').remove();
+
+                // Validate inputs
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var confirmPassword = $('#confirmPassword').val();
+                var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                var valid = true;
+
+                if (!emailPattern.test(email)) {
+                    $('#email').after('<span class="error-message">Please enter a valid email address.</span>');
+                    valid = false;
+                }
+
+
+                if (password.length < 6) {
+                    $('#password').after('<span class="error-message">Password must be at least 6 characters long.</span>');
+                    valid = false;
+                }
+
+            
+                if (password !== confirmPassword) {
+                    $('#confirmPassword').after('<span class="error-message">Passwords do not match.</span>');
+                    valid = false;
+                }
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

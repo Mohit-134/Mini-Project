@@ -1,3 +1,33 @@
+// const header = document.createElement('header');
+
+// const logo = document.createElement('img');
+// logo.src = './media/nflxlogo.webp';
+// logo.alt = 'Netflix Logo';
+
+// const nav = document.createElement('nav');
+
+// const ul = document.createElement('ul');
+
+// const navItems = ['Home', 'Tv Shows', 'Movie', 'Trending'];
+
+// navItems.forEach(item => {
+//     const li = document.createElement('li');
+//     li.textContent = item;
+//     ul.appendChild(li);
+// });
+
+// nav.appendChild(ul);
+
+// header.appendChild(logo);
+// header.appendChild(nav);
+
+// document.body.prepend(header);
+
+
+
+
+
+
 const options = {
     method: 'GET',
     headers: {
@@ -69,3 +99,4 @@ fetch("https://api.themoviedb.org/3/tv/popular?language=en-US&page=1 ", options)
 
     });
 })
+

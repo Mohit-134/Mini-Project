@@ -100,7 +100,7 @@ body{
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   z-index: 10;
   color: #ccc;
@@ -108,7 +108,6 @@ body{
  header ul{
   display: flex;
   list-style-type: none;
-  
  }
  header ul li {
   margin: 10px;
@@ -229,3 +228,19 @@ body{
   height: 150px;
   object-fit: cover;
 }
+
+/* header p{
+  margin-left: 1000px
+} */
+
+header .nav {
+  cursor: pointer;
+  display: flex;
+}
+header .icons {
+  cursor: pointer;
+  display: flex;
+  gap: 30px;
+}
+
+
